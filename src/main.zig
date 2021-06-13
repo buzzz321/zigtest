@@ -157,6 +157,87 @@ test "div 2 vec3 " {
     try expect(expected.z == ans.z);
 }
 
+test "Adding 2 Vec4 " {
+    const v1 = Vec4{ .x = 1.0, .y = 2.0, .z = 3.0, .w = 4.0 };
+    const v2 = Vec4{ .x = 4.0, .y = 5.0, .z = 6.0, .w = 7.0 };
+
+    const expected = Vec4{ .x = 5.0, .y = 7.0, .z = 9.0, .w = 11.0 };
+
+    var ans = addVec4(v1, v2);
+
+    try expect(expected.x == ans.x);
+    try expect(expected.y == ans.y);
+    try expect(expected.z == ans.z);
+    try expect(expected.w == ans.w);
+}
+
+test "sub 2 Vec4 " {
+    const v1 = Vec4{ .x = 1.0, .y = 2.0, .z = 3.0, .w = 4.0 };
+    const v2 = Vec4{ .x = 4.0, .y = 5.0, .z = 6.0, .w = 7.0 };
+
+    const expected = Vec4{
+        .x = -3.0,
+        .y = -3.0,
+        .z = -3.0,
+        .w = -3.0,
+    };
+
+    var ans = subVec4(v1, v2);
+
+    try expect(expected.x == ans.x);
+    try expect(expected.y == ans.y);
+    try expect(expected.z == ans.z);
+    try expect(expected.w == ans.w);
+}
+
+test "mul 2 Vec4 " {
+    const v1 = Vec4{
+        .x = 1.0,
+        .y = 2.0,
+        .z = 3.0,
+        .w = 4.0,
+    };
+    const v2 = Vec4{
+        .x = 4.0,
+        .y = 5.0,
+        .z = 6.0,
+        .w = 7.0,
+    };
+
+    const expected = Vec4{
+        .x = 4.0,
+        .y = 10.0,
+        .z = 18.0,
+        .w = 28.0,
+    };
+
+    var ans = mulVec4(v1, v2);
+
+    try expect(expected.x == ans.x);
+    try expect(expected.y == ans.y);
+    try expect(expected.z == ans.z);
+    try expect(expected.w == ans.w);
+}
+
+test "div 2 Vec4 " {
+    const v1 = Vec4{ .x = 1.0, .y = 2.0, .z = 3.0, .w = 4.0 };
+    const v2 = Vec4{ .x = 4.0, .y = 5.0, .z = 6.0, .w = 8.0 };
+
+    const expected = Vec4{
+        .x = 4.0,
+        .y = 2.5,
+        .z = 2.0,
+        .w = 2.0,
+    };
+
+    var ans = divVec4(v2, v1);
+
+    try expect(expected.x == ans.x);
+    try expect(expected.y == ans.y);
+    try expect(expected.z == ans.z);
+    try expect(expected.w == ans.w);
+}
+
 pub fn main() anyerror!void {
     std.log.info("All your codebase are belong to us.", .{});
 }
