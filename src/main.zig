@@ -24,6 +24,23 @@ const Vec4 = struct {
     }
 };
 
+const Mat4x4 = struct {
+    const mat = [4]Vec4{ 
+        Vec4.init(0.0,0.0,0.0,0.0),
+        Vec4.init(0.0,0.0,0.0,0.0),
+        Vec4.init(0.0,0.0,0.0,0.0),
+        Vec4.init(0.0,0.0,0.0,0.0) 
+        };
+};
+
+pub fn mulMat4Vec4(m: Mat4x4, v: Vec4) Vec4 {
+    return Vec4.init(m.mat[0].x*v.x+m.mat[0].y*v.y+m.mat[0].z*v.z+m.mat[0].w*v.w,
+        m.mat[1].x*v.x+m.mat[1].y*v.y+m.mat[1].z*v.z+m.mat[1].w*v.w,
+        m.mat[2].x*v.x+m.mat[2].y*v.y+m.mat[2].z*v.z+m.mat[2].w*v.w,
+        m.mat[3].x*v.x+m.mat[3].y*v.y+m.mat[3].z*v.z+m.mat[3].w*v.w);
+
+}
+
 pub fn addVec3(v1: Vec3, v2: Vec3) Vec3 {
     return Vec3{ .x = v1.x + v2.x, .y = v1.y + v2.y, .z = v1.z + v2.z };
 }
