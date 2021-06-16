@@ -24,8 +24,8 @@ const Vec4 = struct {
     }
 };
 
-pub fn mulMat4Vec4(m: [][]f32, v: Vec4) Vec4 {
-    return Vec4.init(m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2] + m[0][3] * v[3], m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2] + m[1][3] * v[3], m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2] + m[2][3] * v[3], m[3][0] * v[0] + m[3][1] * v[1] + m[3][2] * v[2] + m[3][3] * v[3]);
+pub fn mulMat4Vec4(m: [4][4]f32, v: Vec4) Vec4 {
+    return Vec4.init(m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3] * v.w, m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3] * v.w, m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3] * v.w, m[3][0] * v.x + m[3][1] * v.y + m[3][2] * v.z + m[3][3] * v.w);
 }
 
 pub fn addVec3(v1: Vec3, v2: Vec3) Vec3 {
@@ -235,6 +235,30 @@ test "div 2 Vec4 " {
     };
 
     var ans = divVec4(v2, v1);
+
+    try expect(expected.x == ans.x);
+    try expect(expected.y == ans.y);
+    try expect(expected.z == ans.z);
+    try expect(expected.w == ans.w);
+}
+
+test "mul Mat4 Vec4 " {
+    const v1 = Vec4{ .x = 1.0, .y = 2.0, .z = 3.0, .w = 4.0 };
+    const m = [4][4]f32{
+        [_]f32{ 1.0, 2.0, 3.0, 4.0 },
+        [_]f32{ 5.0, 6.0, 7.0, 8.0 },
+        [_]f32{ 9.0, 10.0, 11.0, 12.0 },
+        [_]f32{ 13.0, 14.0, 15.0, 16.0 },
+    };
+
+    const expected = Vec4{
+        .x = 30.0,
+        .y = 70.0,
+        .z = 110.0,
+        .w = 150.0,
+    };
+
+    var ans = mulMat4Vec4(m, v1);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
