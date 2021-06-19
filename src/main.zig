@@ -27,7 +27,7 @@ pub const Vec4 = struct {
 pub const Mat44 = struct {
     mat: [4][4]f32,
 
-    pub fn mult(m: Mat44, v: Vec4) Vec4 {
+    pub fn mulVec4(m: Mat44, v: Vec4) Vec4 {
         return Vec4.init(m.mat[0][0] * v.x + m.mat[0][1] * v.y + m.mat[0][2] * v.z + m.mat[0][3] * v.w, m.mat[1][0] * v.x + m.mat[1][1] * v.y + m.mat[1][2] * v.z + m.mat[1][3] * v.w, m.mat[2][0] * v.x + m.mat[2][1] * v.y + m.mat[2][2] * v.z + m.mat[2][3] * v.w, m.mat[3][0] * v.x + m.mat[3][1] * v.y + m.mat[3][2] * v.z + m.mat[3][3] * v.w);
     }
 };
@@ -252,7 +252,7 @@ test "mul Mat44 Vec4 " {
 
     const expected = Vec4{ .x = 30.0, .y = 70.0, .z = 110.0, .w = 150.0 };
 
-    const ans = mat.mult(v1);
+    const ans = mat.mulVec4(v1);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
