@@ -30,6 +30,35 @@ pub const Mat44 = struct {
     pub fn mulVec4(m: Mat44, v: Vec4) Vec4 {
         return Vec4.init(m.mat[0][0] * v.x + m.mat[0][1] * v.y + m.mat[0][2] * v.z + m.mat[0][3] * v.w, m.mat[1][0] * v.x + m.mat[1][1] * v.y + m.mat[1][2] * v.z + m.mat[1][3] * v.w, m.mat[2][0] * v.x + m.mat[2][1] * v.y + m.mat[2][2] * v.z + m.mat[2][3] * v.w, m.mat[3][0] * v.x + m.mat[3][1] * v.y + m.mat[3][2] * v.z + m.mat[3][3] * v.w);
     }
+
+    pub fn add(m: Mat44, other: Mat44) Mat44 {
+        return Mat44{ .mat = [_][4]f32{
+            [_]f32{
+                m[0][0] + other[0][0],
+                m[0][1] + other[0][1],
+                m[0][2] + other[0][2],
+                m[0][3] + other[0][3],
+            },
+            [_]f32{
+                m[1][0] + other[1][0],
+                m[1][1] + other[1][1],
+                m[1][2] + other[1][2],
+                m[1][3] + other[1][3],
+            },
+            [_]f32{
+                m[2][0] + other[2][0],
+                m[2][1] + other[2][1],
+                m[2][2] + other[2][2],
+                m[2][3] + other[2][3],
+            },
+            [_]f32{
+                m[3][0] + other[3][0],
+                m[3][1] + other[3][1],
+                m[3][2] + other[3][2],
+                m[3][3] + other[3][3],
+            },
+        } };
+    }
 };
 
 pub fn addVec3(v1: Vec3, v2: Vec3) Vec3 {
