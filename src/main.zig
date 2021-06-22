@@ -297,12 +297,11 @@ test "add 2 mat4" {
 
     const ans = mat1.add(mat2);
 
-    for(expected.mat) |row, i|{
-        for(row) |col, n| {
+    for (expected.mat) |row, i| {
+        for (row) |col, n| {
             try expect(col == ans.mat[i][n]);
         }
     }
-
 }
 
 pub fn main() !void {
