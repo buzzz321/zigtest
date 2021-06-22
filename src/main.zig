@@ -34,28 +34,28 @@ pub const Mat44 = struct {
     pub fn add(m: Mat44, other: Mat44) Mat44 {
         return Mat44{ .mat = [_][4]f32{
             [_]f32{
-                m[0][0] + other[0][0],
-                m[0][1] + other[0][1],
-                m[0][2] + other[0][2],
-                m[0][3] + other[0][3],
+                m.mat[0][0] + other.mat[0][0],
+                m.mat[0][1] + other.mat[0][1],
+                m.mat[0][2] + other.mat[0][2],
+                m.mat[0][3] + other.mat[0][3],
             },
             [_]f32{
-                m[1][0] + other[1][0],
-                m[1][1] + other[1][1],
-                m[1][2] + other[1][2],
-                m[1][3] + other[1][3],
+                m.mat[1][0] + other.mat[1][0],
+                m.mat[1][1] + other.mat[1][1],
+                m.mat[1][2] + other.mat[1][2],
+                m.mat[1][3] + other.mat[1][3],
             },
             [_]f32{
-                m[2][0] + other[2][0],
-                m[2][1] + other[2][1],
-                m[2][2] + other[2][2],
-                m[2][3] + other[2][3],
+                m.mat[2][0] + other.mat[2][0],
+                m.mat[2][1] + other.mat[2][1],
+                m.mat[2][2] + other.mat[2][2],
+                m.mat[2][3] + other.mat[2][3],
             },
             [_]f32{
-                m[3][0] + other[3][0],
-                m[3][1] + other[3][1],
-                m[3][2] + other[3][2],
-                m[3][3] + other[3][3],
+                m.mat[3][0] + other.mat[3][0],
+                m.mat[3][1] + other.mat[3][1],
+                m.mat[3][2] + other.mat[3][2],
+                m.mat[3][3] + other.mat[3][3],
             },
         } };
     }
@@ -287,6 +287,22 @@ test "mul Mat44 Vec4 " {
     try expect(expected.y == ans.y);
     try expect(expected.z == ans.z);
     try expect(expected.w == ans.w);
+}
+
+test "add 2 mat4" {
+    const mat1 = Mat44{ .mat = [_][4]f32{ [_]f32{ 1.0, 2.0, 3.0, 4.0 }, [_]f32{ 5.0, 6.0, 7.0, 8.0 }, [_]f32{ 9.0, 10.0, 11.0, 12.0 }, [_]f32{ 13.0, 14.0, 15.0, 16.0 } } };
+    const mat2 = Mat44{ .mat = [_][4]f32{ [_]f32{ 1.0, 2.0, 3.0, 4.0 }, [_]f32{ 5.0, 6.0, 7.0, 8.0 }, [_]f32{ 9.0, 10.0, 11.0, 12.0 }, [_]f32{ 13.0, 14.0, 15.0, 16.0 } } };
+
+    const expected = Mat44{ .mat = [_][4]f32{ [_]f32{ 2.0, 4.0, 6.0, 8.0 }, [_]f32{ 10.0, 12.0, 14.0, 16.0 }, [_]f32{ 18.0, 20.0, 22.0, 24.0 }, [_]f32{ 26.0, 28.0, 30.0, 32.0 } } };
+
+    const ans = mat1.add(mat2);
+
+    for(expected.mat) |row, i|{
+        for(row) |col, n| {
+            try expect(col == ans.mat[i][n]);
+        }
+    }
+
 }
 
 pub fn main() !void {
