@@ -25,6 +25,8 @@ pub const Vec4 = struct {
     }
 };
 
+// Matrix struct is based on https://github.com/andrewrk/tetris/blob/master/src/math3d.zig
+//
 pub const Mat44 = struct {
     mat: [4][4]f32,
 
