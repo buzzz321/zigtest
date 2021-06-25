@@ -1,5 +1,6 @@
 const std = @import("std");
 const expect = @import("std").testing.expect;
+const expectEqual = @import("std").testing.expectEqual;
 
 const Vec3 = struct {
     x: f32,
@@ -56,6 +57,35 @@ pub const Mat44 = struct {
                 m.mat[3][1] + other.mat[3][1],
                 m.mat[3][2] + other.mat[3][2],
                 m.mat[3][3] + other.mat[3][3],
+            },
+        } };
+    }
+
+    pub fn mul(m: Mat44, other: Mat44) Mat44 {
+        return Mat44{ .mat = [_][4]f32{
+            [_]f32{
+                m.mat[0][0] * other.mat[0][0] + m.mat[0][1] * other.mat[1][0] + m.mat[0][2] * other.mat[2][0] + m.mat[0][3] * other.mat[3][0],
+                m.mat[0][0] * other.mat[0][1] + m.mat[0][1] * other.mat[1][1] + m.mat[0][2] * other.mat[2][1] + m.mat[0][3] * other.mat[3][1],
+                m.mat[0][0] * other.mat[0][2] + m.mat[0][1] * other.mat[1][2] + m.mat[0][2] * other.mat[2][2] + m.mat[0][3] * other.mat[3][2],
+                m.mat[0][0] * other.mat[0][3] + m.mat[0][1] * other.mat[1][3] + m.mat[0][2] * other.mat[2][3] + m.mat[0][3] * other.mat[3][3],
+            },
+            [_]f32{
+                m.mat[1][0] * other.mat[0][0] + m.mat[1][1] * other.mat[1][0] + m.mat[1][2] * other.mat[2][0] + m.mat[1][3] * other.mat[3][0],
+                m.mat[1][0] * other.mat[0][1] + m.mat[1][1] * other.mat[1][1] + m.mat[1][2] * other.mat[2][1] + m.mat[1][3] * other.mat[3][1],
+                m.mat[1][0] * other.mat[0][2] + m.mat[1][1] * other.mat[1][2] + m.mat[1][2] * other.mat[2][2] + m.mat[1][3] * other.mat[3][2],
+                m.mat[1][0] * other.mat[0][3] + m.mat[1][1] * other.mat[1][3] + m.mat[1][2] * other.mat[2][3] + m.mat[1][3] * other.mat[3][3],
+            },
+            [_]f32{
+                m.mat[2][0] * other.mat[0][0] + m.mat[2][1] * other.mat[1][0] + m.mat[2][2] * other.mat[2][0] + m.mat[2][3] * other.mat[3][0],
+                m.mat[2][0] * other.mat[0][1] + m.mat[2][1] * other.mat[1][1] + m.mat[2][2] * other.mat[2][1] + m.mat[2][3] * other.mat[3][1],
+                m.mat[2][0] * other.mat[0][2] + m.mat[2][1] * other.mat[1][2] + m.mat[2][2] * other.mat[2][2] + m.mat[2][3] * other.mat[3][2],
+                m.mat[2][0] * other.mat[0][3] + m.mat[2][1] * other.mat[1][3] + m.mat[2][2] * other.mat[2][3] + m.mat[2][3] * other.mat[3][3],
+            },
+            [_]f32{
+                m.mat[3][0] * other.mat[0][0] + m.mat[3][1] * other.mat[1][0] + m.mat[3][2] * other.mat[2][0] + m.mat[3][3] * other.mat[3][0],
+                m.mat[3][0] * other.mat[0][1] + m.mat[3][1] * other.mat[1][1] + m.mat[3][2] * other.mat[2][1] + m.mat[3][3] * other.mat[3][1],
+                m.mat[3][0] * other.mat[0][2] + m.mat[3][1] * other.mat[1][2] + m.mat[3][2] * other.mat[2][2] + m.mat[3][3] * other.mat[3][2],
+                m.mat[3][0] * other.mat[0][3] + m.mat[3][1] * other.mat[1][3] + m.mat[3][2] * other.mat[2][3] + m.mat[3][3] * other.mat[3][3],
             },
         } };
     }
@@ -300,6 +330,26 @@ test "add 2 mat4" {
     for (expected.mat) |row, i| {
         for (row) |col, n| {
             try expect(col == ans.mat[i][n]);
+        }
+    }
+}
+
+test "mul 2 mat4" {
+    const mat1 = Mat44{ .mat = [_][4]f32{ [_]f32{ 1.0, 2.0, 3.0, 4.0 }, [_]f32{ 5.0, 6.0, 7.0, 8.0 }, [_]f32{ 9.0, 10.0, 11.0, 12.0 }, [_]f32{ 13.0, 14.0, 15.0, 16.0 } } };
+    const mat2 = Mat44{ .mat = [_][4]f32{ [_]f32{ 1.0, 2.0, 3.0, 4.0 }, [_]f32{ 5.0, 6.0, 7.0, 8.0 }, [_]f32{ 9.0, 10.0, 11.0, 12.0 }, [_]f32{ 13.0, 14.0, 15.0, 16.0 } } };
+
+    const expected = Mat44{ .mat = [_][4]f32{ [_]f32{
+        90.0,
+        100.0,
+        110.0,
+        120.0,
+    }, [_]f32{ 202.0, 228.0, 254.0, 280.0 }, [_]f32{ 314.0, 356.0, 398.0, 440.0 }, [_]f32{ 426.0, 484.0, 542.0, 600.0 } } };
+
+    const ans = mat1.mul(mat2);
+
+    for (expected.mat) |row, i| {
+        for (row) |col, n| {
+            try expectEqual(col, ans.mat[i][n]);
         }
     }
 }
