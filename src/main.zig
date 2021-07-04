@@ -34,6 +34,34 @@ pub const Mat44 = struct {
         return Vec4.init(m.mat[0][0] * v.x + m.mat[0][1] * v.y + m.mat[0][2] * v.z + m.mat[0][3] * v.w, m.mat[1][0] * v.x + m.mat[1][1] * v.y + m.mat[1][2] * v.z + m.mat[1][3] * v.w, m.mat[2][0] * v.x + m.mat[2][1] * v.y + m.mat[2][2] * v.z + m.mat[2][3] * v.w, m.mat[3][0] * v.x + m.mat[3][1] * v.y + m.mat[3][2] * v.z + m.mat[3][3] * v.w);
     }
 
+    pub fn mulScal(m: Mat44, s: f32) Mat44 {
+         return Mat44{ .mat = [_][4]f32{
+            [_]f32{
+                m.mat[0][0] * s,
+                m.mat[0][1] * s,
+                m.mat[0][2] * s,
+                m.mat[0][3] * s,
+            },
+            [_]f32{
+                m.mat[1][0] * s,
+                m.mat[1][1] * s,
+                m.mat[1][2] * s,
+                m.mat[1][3] * s,
+            },
+            [_]f32{
+                m.mat[2][0] * s,
+                m.mat[2][1] * s,
+                m.mat[2][2] * s,
+                m.mat[2][3] * s,
+            },
+            [_]f32{
+                m.mat[3][0] * s,
+                m.mat[3][1] * s,
+                m.mat[3][2] * s,
+                m.mat[3][3] * s,
+            },
+        } };
+    }
     pub fn add(m: Mat44, other: Mat44) Mat44 {
         return Mat44{ .mat = [_][4]f32{
             [_]f32{
@@ -348,6 +376,20 @@ test "mul 2 mat4" {
     }, [_]f32{ 202.0, 228.0, 254.0, 280.0 }, [_]f32{ 314.0, 356.0, 398.0, 440.0 }, [_]f32{ 426.0, 484.0, 542.0, 600.0 } } };
 
     const ans = mat1.mul(mat2);
+
+    for (expected.mat) |row, i| {
+        for (row) |col, n| {
+            try expectEqual(col, ans.mat[i][n]);
+        }
+    }
+}
+
+test "mul mat4 & scalear" {
+    const mat1 = Mat44{ .mat = [_][4]f32{ [_]f32{ 1.0, 2.0, 3.0, 4.0 }, [_]f32{ 5.0, 6.0, 7.0, 8.0 }, [_]f32{ 9.0, 10.0, 11.0, 12.0 }, [_]f32{ 13.0, 14.0, 15.0, 16.0 } } };
+    const scal: f32 = 2.0;
+
+    const expected =Mat44{ .mat = [_][4]f32{ [_]f32{ 2.0*1.0, 2.0*2.0, 2.0*3.0, 2.0*4.0 }, [_]f32{ 2.0*5.0, 2.0*6.0, 2.0*7.0, 2.0*8.0 }, [_]f32{ 2.0*9.0, 2.0*10.0, 2.0*11.0, 2.0*12.0 }, [_]f32{ 2.0*13.0, 2.0*14.0, 2.0*15.0, 2.0*16.0 } } };
+    const ans = mat1.mulScal(scal);
 
     for (expected.mat) |row, i| {
         for (row) |col, n| {
