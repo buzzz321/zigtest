@@ -14,6 +14,24 @@ const Vec3 = struct {
             .z = z,
         };
     }
+
+    pub fn add(v1: Vec3, v2: Vec3) Vec3 {
+        return Vec3{ .x = v1.x + v2.x, .y = v1.y + v2.y, .z = v1.z + v2.z };
+    }
+
+    pub fn sub(v1: Vec3, v2: Vec3) Vec3 {
+        return Vec3{ .x = v1.x - v2.x, .y = v1.y - v2.y, .z = v1.z - v2.z };
+    }
+
+    pub fn mul(v1: Vec3, v2: Vec3) Vec3 {
+        return Vec3{ .x = v1.x * v2.x, .y = v1.y * v2.y, .z = v1.z * v2.z };
+    }
+    pub fn div(v1: Vec3, v2: Vec3) Vec3 {
+        return Vec3{ .x = v1.x / v2.x, .y = v1.y / v2.y, .z = v1.z / v2.z };
+    }
+    pub fn len(v1: Vec3) f32 {
+        return math.sqrt(math.exp2(v1.x) + math.exp2(v1.y) + math.exp2(v1.z));
+    }
 };
 
 pub const Vec4 = struct {
@@ -23,6 +41,25 @@ pub const Vec4 = struct {
     w: f32,
     pub fn init(x: f32, y: f32, z: f32, w: f32) Vec4 {
         return Vec4{ .x = x, .y = y, .z = z, .w = w };
+    }
+    pub fn add(v1: Vec4, v2: Vec4) Vec4 {
+        return Vec4{ .x = v1.x + v2.x, .y = v1.y + v2.y, .z = v1.z + v2.z, .w = v1.w + v2.w };
+    }
+
+    pub fn sub(v1: Vec4, v2: Vec4) Vec4 {
+        return Vec4{ .x = v1.x - v2.x, .y = v1.y - v2.y, .z = v1.z - v2.z, .w = v1.w - v2.w };
+    }
+
+    pub fn mul(v1: Vec4, v2: Vec4) Vec4 {
+        return Vec4{ .x = v1.x * v2.x, .y = v1.y * v2.y, .z = v1.z * v2.z, .w = v1.w * v2.w };
+    }
+
+    pub fn div(v1: Vec4, v2: Vec4) Vec4 {
+        return Vec4{ .x = v1.x / v2.x, .y = v1.y / v2.y, .z = v1.z / v2.z, .w = v1.w / v2.w };
+    }
+
+    pub fn len(v1: Vec4) f32 {
+        return math.sqrt(math.exp2(v1.x) + math.exp2(v1.y) + math.exp2(v1.z) + math.exp2(v1.w));
     }
 };
 
@@ -36,7 +73,7 @@ pub const Mat44 = struct {
     }
 
     pub fn mulScal(m: Mat44, s: f32) Mat44 {
-         return Mat44{ .mat = [_][4]f32{
+        return Mat44{ .mat = [_][4]f32{
             [_]f32{
                 m.mat[0][0] * s,
                 m.mat[0][1] * s,
@@ -122,45 +159,6 @@ pub const Mat44 = struct {
     }
 };
 
-pub fn addVec3(v1: Vec3, v2: Vec3) Vec3 {
-    return Vec3{ .x = v1.x + v2.x, .y = v1.y + v2.y, .z = v1.z + v2.z };
-}
-
-pub fn addVec4(v1: Vec4, v2: Vec4) Vec4 {
-    return Vec4{ .x = v1.x + v2.x, .y = v1.y + v2.y, .z = v1.z + v2.z, .w = v1.w + v2.w };
-}
-
-pub fn subVec3(v1: Vec3, v2: Vec3) Vec3 {
-    return Vec3{ .x = v1.x - v2.x, .y = v1.y - v2.y, .z = v1.z - v2.z };
-}
-
-pub fn subVec4(v1: Vec4, v2: Vec4) Vec4 {
-    return Vec4{ .x = v1.x - v2.x, .y = v1.y - v2.y, .z = v1.z - v2.z, .w = v1.w - v2.w };
-}
-
-pub fn mulVec3(v1: Vec3, v2: Vec3) Vec3 {
-    return Vec3{ .x = v1.x * v2.x, .y = v1.y * v2.y, .z = v1.z * v2.z };
-}
-
-pub fn mulVec4(v1: Vec4, v2: Vec4) Vec4 {
-    return Vec4{ .x = v1.x * v2.x, .y = v1.y * v2.y, .z = v1.z * v2.z, .w = v1.w * v2.w };
-}
-
-pub fn divVec3(v1: Vec3, v2: Vec3) Vec3 {
-    return Vec3{ .x = v1.x / v2.x, .y = v1.y / v2.y, .z = v1.z / v2.z };
-}
-
-pub fn divVec4(v1: Vec4, v2: Vec4) Vec4 {
-    return Vec4{ .x = v1.x / v2.x, .y = v1.y / v2.y, .z = v1.z / v2.z, .w = v1.w / v2.w };
-}
-
-pub fn lenVec4(v1: Vec4) f32 {
-    return math.sqrt(math.exp2(v1.x)+math.exp2(v1.y)+math.exp2(v1.z)+math.exp2(v1.w));
-}
-
-pub fn lenVec3(v1: Vec3) f32 {
-    return math.sqrt(math.exp2(v1.x)+math.exp2(v1.y)+math.exp2(v1.z));
-}
 //-----------------------some tests.-------------------------
 test "Adding 2 vec3 " {
     const v1 = Vec3{
@@ -180,7 +178,7 @@ test "Adding 2 vec3 " {
         .z = 9.0,
     };
 
-    var ans = addVec3(v1, v2);
+    var ans = v1.add(v2);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -205,7 +203,7 @@ test "sub 2 vec3 " {
         .z = -3.0,
     };
 
-    var ans = subVec3(v1, v2);
+    var ans = v1.sub(v2);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -230,7 +228,7 @@ test "mul 2 vec3 " {
         .z = 18.0,
     };
 
-    var ans = mulVec3(v1, v2);
+    var ans = v1.mul(v2);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -255,7 +253,7 @@ test "div 2 vec3 " {
         .z = 2.0,
     };
 
-    var ans = divVec3(v2, v1);
+    var ans = v2.div(v1);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -268,7 +266,7 @@ test "Adding 2 Vec4 " {
 
     const expected = Vec4{ .x = 5.0, .y = 7.0, .z = 9.0, .w = 11.0 };
 
-    var ans = addVec4(v1, v2);
+    var ans = v1.add(v2);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -287,7 +285,7 @@ test "sub 2 Vec4 " {
         .w = -3.0,
     };
 
-    var ans = subVec4(v1, v2);
+    var ans = v1.sub(v2);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -316,7 +314,7 @@ test "mul 2 Vec4 " {
         .w = 28.0,
     };
 
-    var ans = mulVec4(v1, v2);
+    var ans = v1.mul(v2);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -335,7 +333,7 @@ test "div 2 Vec4 " {
         .w = 2.0,
     };
 
-    var ans = divVec4(v2, v1);
+    var ans = v2.div(v1);
 
     try expect(expected.x == ans.x);
     try expect(expected.y == ans.y);
@@ -396,7 +394,7 @@ test "mul mat4 & scalear" {
     const mat1 = Mat44{ .mat = [_][4]f32{ [_]f32{ 1.0, 2.0, 3.0, 4.0 }, [_]f32{ 5.0, 6.0, 7.0, 8.0 }, [_]f32{ 9.0, 10.0, 11.0, 12.0 }, [_]f32{ 13.0, 14.0, 15.0, 16.0 } } };
     const scal: f32 = 2.0;
 
-    const expected =Mat44{ .mat = [_][4]f32{ [_]f32{ 2.0*1.0, 2.0*2.0, 2.0*3.0, 2.0*4.0 }, [_]f32{ 2.0*5.0, 2.0*6.0, 2.0*7.0, 2.0*8.0 }, [_]f32{ 2.0*9.0, 2.0*10.0, 2.0*11.0, 2.0*12.0 }, [_]f32{ 2.0*13.0, 2.0*14.0, 2.0*15.0, 2.0*16.0 } } };
+    const expected = Mat44{ .mat = [_][4]f32{ [_]f32{ 2.0 * 1.0, 2.0 * 2.0, 2.0 * 3.0, 2.0 * 4.0 }, [_]f32{ 2.0 * 5.0, 2.0 * 6.0, 2.0 * 7.0, 2.0 * 8.0 }, [_]f32{ 2.0 * 9.0, 2.0 * 10.0, 2.0 * 11.0, 2.0 * 12.0 }, [_]f32{ 2.0 * 13.0, 2.0 * 14.0, 2.0 * 15.0, 2.0 * 16.0 } } };
     const ans = mat1.mulScal(scal);
 
     for (expected.mat) |row, i| {
@@ -407,33 +405,32 @@ test "mul mat4 & scalear" {
 }
 
 test "lenght of a vec4" {
-    var v1 = Vec4.init(5.0,0,0,0);
-    var expected:f32 = 5.0;
-    var ans = lenVec4(v1);
+    var v1 = Vec4.init(5.0, 0, 0, 0);
+    var expected: f32 = 5.0;
+    var ans = v1.len();
 
     try expectEqual(ans, ans);
 
-    v1 = Vec4.init(2,2,2,2);
+    v1 = Vec4.init(2, 2, 2, 2);
     expected = 4.0;
-    ans = lenVec4(v1);
+    ans = v1.len();
 
     try expectEqual(ans, ans);
 }
 
 test "lenght of a vec3" {
-    var v1 = Vec3.init(5.0,0,0);
-    var expected:f32 = 5.0;
-    var ans = lenVec3(v1);
+    var v1 = Vec3.init(5.0, 0, 0);
+    var expected: f32 = 5.0;
+    var ans = v1.len();
 
     try expectEqual(ans, ans);
 
-    v1 = Vec3.init(2,2,1);
+    v1 = Vec3.init(2, 2, 1);
     expected = 3.0;
-    ans = lenVec3(v1);
+    ans = v1.len();
 
     try expectEqual(ans, ans);
 }
-
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
