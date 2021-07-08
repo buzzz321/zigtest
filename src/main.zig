@@ -1,6 +1,7 @@
 const std = @import("std");
 const expect = @import("std").testing.expect;
 const expectEqual = @import("std").testing.expectEqual;
+const math = @import("std").math;
 
 const Vec3 = struct {
     x: f32,
@@ -153,6 +154,13 @@ pub fn divVec4(v1: Vec4, v2: Vec4) Vec4 {
     return Vec4{ .x = v1.x / v2.x, .y = v1.y / v2.y, .z = v1.z / v2.z, .w = v1.w / v2.w };
 }
 
+pub fn lenVec4(v1: Vec4) f32 {
+    return math.sqrt(math.exp2(v1.x)+math.exp2(v1.y)+math.exp2(v1.z)+math.exp2(v1.w));
+}
+
+pub fn lenVec3(v1: Vec3) f32 {
+    return math.sqrt(math.exp2(v1.x)+math.exp2(v1.y)+math.exp2(v1.z));
+}
 //-----------------------some tests.-------------------------
 test "Adding 2 vec3 " {
     const v1 = Vec3{
@@ -397,6 +405,35 @@ test "mul mat4 & scalear" {
         }
     }
 }
+
+test "lenght of a vec4" {
+    var v1 = Vec4.init(5.0,0,0,0);
+    var expected:f32 = 5.0;
+    var ans = lenVec4(v1);
+
+    try expectEqual(ans, ans);
+
+    v1 = Vec4.init(2,2,2,2);
+    expected = 4.0;
+    ans = lenVec4(v1);
+
+    try expectEqual(ans, ans);
+}
+
+test "lenght of a vec3" {
+    var v1 = Vec3.init(5.0,0,0);
+    var expected:f32 = 5.0;
+    var ans = lenVec3(v1);
+
+    try expectEqual(ans, ans);
+
+    v1 = Vec3.init(2,2,1);
+    expected = 3.0;
+    ans = lenVec3(v1);
+
+    try expectEqual(ans, ans);
+}
+
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
